@@ -90,21 +90,91 @@ public class frmProductos extends Stage {
         });
 
         btnGuardar.setOnAction(event -> {
-
-            objDAO.setNombre(txtNombre.getText());
-            objDAO.setDescripcion(txtDescripcion.getText());
-            objDAO.setExistencia(Double.parseDouble(txtExistencia.getText()));
-            objDAO.setDisponible(txtDisponible.getText());
-            objDAO.setFile(file);
-            if(objDAO.getId_producto() > 0){
-                objDAO.UPDATE();
-            } else{
-                objDAO.INSERT();
+            if(objDAO.getId_producto() > 0 && file != null){
+                try{
+                    if(Double.parseDouble(txtExistencia.getText()) >= 0){
+                        objDAO.setNombre(txtNombre.getText());
+                        objDAO.setDescripcion(txtDescripcion.getText());
+                        objDAO.setExistencia(Double.parseDouble(txtExistencia.getText()));
+                        objDAO.setDisponible(txtDisponible.getText());
+                        objDAO.setFile(file);
+                        objDAO.UPDATEIMG();
+                        tbvProductos.setItems(objDAO.SELECT());
+                        tbvProductos.refresh();
+                        this.close();
+                    } else{
+                        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                        alerta.setTitle("Mensaje del Sistema");
+                        alerta.setHeaderText("Error de Dato");
+                        alerta.setContentText("El campo existencia debe ser numerico y con valor mayor o igual a 0");
+                        alerta.showAndWait();
+                    }
+                }catch (Exception ex){
+                    Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                    alerta.setTitle("Mensaje del Sistema");
+                    alerta.setHeaderText("Error de Dato");
+                    alerta.setContentText("El campo existencia debe ser numerico y con valor mayor o igual a 0");
+                    alerta.showAndWait();
+                }
+            } else if(objDAO.getId_producto() > 0 && file == null){
+                try{
+                    if(Double.parseDouble(txtExistencia.getText()) >= 0){
+                        objDAO.setNombre(txtNombre.getText());
+                        objDAO.setDescripcion(txtDescripcion.getText());
+                        objDAO.setExistencia(Double.parseDouble(txtExistencia.getText()));
+                        objDAO.setDisponible(txtDisponible.getText());
+                        objDAO.UPDATE();
+                        tbvProductos.setItems(objDAO.SELECT());
+                        tbvProductos.refresh();
+                        this.close();
+                    } else{
+                        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                        alerta.setTitle("Mensaje del Sistema");
+                        alerta.setHeaderText("Error de Dato");
+                        alerta.setContentText("El campo existencia debe ser numerico y con valor mayor o igual a 0");
+                        alerta.showAndWait();
+                    }
+                }catch (Exception ex){
+                    Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                    alerta.setTitle("Mensaje del Sistema");
+                    alerta.setHeaderText("Error de Dato");
+                    alerta.setContentText("El campo existencia debe ser numerico y con valor mayor o igual a 0");
+                    alerta.showAndWait();
+                }
+            } else if(txtNombre.getText() != null && txtDescripcion.getText() != null && txtExistencia.getText() != null &&
+                      txtDisponible.getText() != null &&file != null){
+                try{
+                    if(Double.parseDouble(txtExistencia.getText()) >= 0){
+                        objDAO.setNombre(txtNombre.getText());
+                        objDAO.setDescripcion(txtDescripcion.getText());
+                        objDAO.setExistencia(Double.parseDouble(txtExistencia.getText()));
+                        objDAO.setDisponible(txtDisponible.getText());
+                        objDAO.setFile(file);
+                        objDAO.INSERT();
+                        tbvProductos.setItems(objDAO.SELECT());
+                        tbvProductos.refresh();
+                        this.close();
+                    } else{
+                        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                        alerta.setTitle("Mensaje del Sistema");
+                        alerta.setHeaderText("Error de Dato");
+                        alerta.setContentText("El campo existencia debe ser numerico y con valor mayor o igual a 0");
+                        alerta.showAndWait();
+                    }
+                }catch (Exception ex){
+                    Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                    alerta.setTitle("Mensaje del Sistema");
+                    alerta.setHeaderText("Error de Dato");
+                    alerta.setContentText("El campo existencia debe ser numerico y con valor mayor o igual a 0");
+                    alerta.showAndWait();
+                }
+            } else {
+                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                alerta.setTitle("Mensaje del Sistema");
+                alerta.setHeaderText("Falta un dato");
+                alerta.setContentText("No se han llenado los campos correctamente");
+                alerta.showAndWait();
             }
-
-            tbvProductos.setItems(objDAO.SELECT());
-            tbvProductos.refresh();
-            this.close();
         });
 
         vBox.getChildren().addAll(lblNombre, txtNombre, lblDescripcion, txtDescripcion, lblExistencia, txtExistencia, lblDisponible, txtDisponible, lblImagen, btnImagen, txtImagen, imageView, btnGuardar);

@@ -84,7 +84,7 @@ public class ProductosDAO {
         }
     }
 
-    public void UPDATE(){
+    public void UPDATEIMG(){
         try{
             FileInputStream fis = new FileInputStream(file);
             PreparedStatement ps = Coneccion.conn.prepareStatement("UPDATE tbl_productos SET nombre=?, descripcion=?, existencia=?,disponible=?, imagen=?" +
@@ -94,6 +94,20 @@ public class ProductosDAO {
             ps.setDouble(3, existencia);
             ps.setString(4, disponible);
             ps.setBinaryStream(5, fis, (int)file.length());
+            ps.executeUpdate();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void UPDATE(){
+        try{
+            PreparedStatement ps = Coneccion.conn.prepareStatement("UPDATE tbl_productos SET nombre=?, descripcion=?, existencia=?,disponible=? "+
+                    "WHERE id_producto ="+id_producto);
+            ps.setString(1, nombre);
+            ps.setString(2, descripcion);
+            ps.setDouble(3, existencia);
+            ps.setString(4, disponible);
             ps.executeUpdate();
         } catch (Exception ex){
             ex.printStackTrace();
